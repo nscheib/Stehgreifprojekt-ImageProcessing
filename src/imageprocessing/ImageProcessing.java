@@ -5,17 +5,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import filter.FilterBib;
-import filter.IFilter;
+import filterFunktionen.FilterBib;
+import filterFunktionen.IFilter;
 //--------------------------------
 
 
+/**
+ * Das Programm erstellt mithilfe von verschiedenen Filtern, ein neues Bild, welches abgespeichert wird.
+ * Hierzu kann wahlweise eine Maske hinzugefügt werden, dass nur einen Teilbereich des Bildes veraendert.
+ *
+ * @author Felix Fuhrman, Nick Scheib
+ * @version Rohbau 0.5
+ */
 public class ImageProcessing {
 
+    /**
+     * Die Mainmethode startet das Programm.
+     * @param args fragt und speichert die Eingabe aus der Console ab.
+     */
     public static void main(String[]args){
 
         BufferedImage bufferedImage = null, image = null, mask = null;
-        String outputFile = " ", filterName = " ", maskFile = " ";
+        String outputFile = " ", filterName = " ";
 
         // Die Hashmap wird initialisiert
         FilterBib.initialisieren();
@@ -25,6 +36,15 @@ public class ImageProcessing {
 
     }
 
+    /**
+     *
+     * @param filterName
+     * @param outputFile
+     * @param bufferedImage
+     * @param mask
+     * @param image
+     * @param args
+     */
     public static void filterProcess(String filterName, String outputFile, BufferedImage bufferedImage, BufferedImage mask, BufferedImage image, String [] args){
 
         try{

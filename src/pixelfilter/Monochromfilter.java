@@ -1,9 +1,21 @@
 package pixelfilter;
 
+import java.awt.Color;
+//--------------------------------
 
-import filter.IFilter;
 
+public class Monochromfilter extends PixelFilter {
 
-public class Monochromfilter extends IFilter {
+    @Override
+    protected int calculate(int farbPixel){
+
+        int rot = (farbPixel & 0xff);
+        int gruen = ((farbPixel >> 8) & 0xff);
+        int blau = (farbPixel >> 16) & 0xff;
+
+        int helligkeit = (rot + gruen + blau) /3;
+
+        return new Color(helligkeit, helligkeit, helligkeit).getRGB();
+    }
 
 }
