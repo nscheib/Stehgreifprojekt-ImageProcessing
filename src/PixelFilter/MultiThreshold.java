@@ -14,6 +14,11 @@ public class MultiThreshold extends PixelFilter {
 
     public MultiThreshold(int... multiTresh) { this.multiTresh = multiTresh; }
 
+    /**
+     *  Methode die den Filter Threshold mehrmals anwendet
+     * @param einzelPixel ist ein einzelner Pixel
+     * @return gibt den veraenderten Pixelwert zurueck
+     */
     @Override
     protected int calculate(int einzelPixel){
 
@@ -21,8 +26,8 @@ public class MultiThreshold extends PixelFilter {
         if(getHelligkeit(einzelPixel) > multiTresh[multiTresh.length - 1]){
             return getRGBColor(255, 255,255);
         }
-        // Fuer die Arraylaenge, wird ein Pixel um einen Wert veraendert
 
+        // Fuer die Arraylaenge, wird ein Pixel um einen Wert veraendert
         for (int i = 1; i >= 0; i--){
             if(getHelligkeit(einzelPixel) >= multiTresh[i]){
                 return getRGBColor(multiTresh[i+1], multiTresh[i+1], multiTresh[i+1]);
