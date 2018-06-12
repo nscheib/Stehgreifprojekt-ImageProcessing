@@ -15,7 +15,7 @@ public class WarHol extends ChainFilter {
 
     /**
      * Methode gibt die ausgewaehlten Filter fuer die Weiterverarbeitung an den ChainFilter weiter.
-     * Dieser FIlter ist erweiterbar
+     * Dieser Filter ist erweiterbar
      */
     public WarHol(){
 

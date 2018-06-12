@@ -7,6 +7,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 //==========================================================//
 
 
@@ -20,6 +24,7 @@ import java.io.IOException;
 public class Main {
 
     private static BufferedImage image = null, mask = null;
+    private static HashMap<String, IFilter> filter;
 
     /**
      * Methode welche das Programm startet
@@ -29,8 +34,11 @@ public class Main {
 
         // Liest und speichert das Bild in der Variablen image und startet den Verarbeitungsprozess
         readImg(args);
+
         // Starten den Verarbeitungsprozess
-        procImage(args);
+        // "test" erstellt fuer jeden Filter ein Bild
+        procImage(args, image, mask, filter);
+
         // Speichert das veraenderte Bild ab
         saveImg(args);
 
@@ -48,41 +56,35 @@ public class Main {
 
     } // END METHODE
 
-    private static BufferedImage procImage(String[] args) {
+    private static BufferedImage procImage(String[] args, BufferedImage image, BufferedImage mask, HashMap<String, IFilter> filter) {
 
         IFilter filterOut = getFilter(args[0], args);
 
         try {
-             // "test" erstellt fuer jeden Filter ein Bild
-            if (args[0].equals("test")) {
-                final long timeStart1 = System.currentTimeMillis();
-                getFilter(args[0], args);
-                final long timeEnd1 = System.currentTimeMillis();
-                System.out.println("Verarbeitungszeit: " + (timeEnd1 - timeStart1) + " Millisek.");
+            // Zum ueberpruefen und abspeichern der Maske
+            if (args[2].equalsIgnoreCase("-m")) { mask = ImageIO.read(new File(args[3])); }
+
+            // Zeiterfassung START
+            long timeStart2 = System.currentTimeMillis();
+
+            if (args[0].equalsIgnoreCase("test")){
+                Main.alleFilter(filter, args);
             } else {
-                // Zum ueberpruefen und abspeichern der Maske
-                if (args[2].equalsIgnoreCase("-m")) { mask = ImageIO.read(new File(args[3])); }
-
-                // Zeiterfassung START
-                final long timeStart2 = System.currentTimeMillis();
-
                 // Startet die Verarbeitung des Bildes (+ Maske), speichert das Ergebnis in Image
                 if (mask == null) {
                     image = filterOut.process(image);
                 } else if (mask != null) {
                     image = filterOut.process(image, mask);
                 }
-
-                // Zeiterfassung ENDE
-                final long timeEnd2 = System.currentTimeMillis();
-
-                // Ausgabe Filter und benoetigte Zeit
-                System.out.println("Es wurde folgender Filter benutzt:" + filterOut.toString());
-                System.out.println("Die gesamte Verarbeitungzeit: " + (timeEnd2 - timeStart2) + " Millisek.");
-
-                // Gibt das Bild zum weiter verarbeiten zurueck
-                return image;
             }
+
+            // Ausgabe Filter und benoetigte Zeit
+            System.out.println("Es wurde folgender Filter benutzt:" + filterOut.toString());
+            System.out.println("Die gesamte Verarbeitungzeit: " + (System.currentTimeMillis() - timeStart2) + " Millisek.");
+
+            // Gibt das Bild zum weiter verarbeiten zurueck
+            return image;
+
         } catch(IOException e) {
             System.err.println("Es konnte keine Maske gefunden werden! <Error-Main.procImage-1>");
             e.printStackTrace();
@@ -100,11 +102,37 @@ public class Main {
             if (args[2].equalsIgnoreCase("-m")) { ImageIO.write(image, "bmp", new File(args[4])); }
             else { ImageIO.write(image, "bmp", new File(args[2])); }
         } catch (IOException e) {
-            System.err.println("Es konnte kein Bild gepsiechert werden! <Error-Main.saveImg-1>");
+            System.err.println("Es konnte kein Bild gespeichert werden! <Error-Main.saveImg-1>");
             e.printStackTrace();
         }
 
     } // END METHODE
 
+
+    public static void alleFilter(HashMap<String, IFilter> filter, String[]args) {
+
+        Iterator iterator = filter.entrySet().iterator();
+
+        long timeStart1 = System.currentTimeMillis();
+        while (iterator.hasNext()) {
+
+            Map.Entry aktFilter = (Map.Entry)iterator.next();
+
+            try {
+                image = ImageIO.read(new File(args[1]));
+                if (args[2].equalsIgnoreCase("-m")) { mask = ImageIO.read(new File(args[3])); }
+
+                IFilter imageOut = getFilter(aktFilter.getKey().toString(), args);
+                System.out.println(imageOut.toString());
+
+                ImageIO.write(filter.get(aktFilter.getKey().toString()).process(image, mask), "bmp", new File("outPutImage" + "_" + aktFilter.getKey().toString() + ".bmp"));
+
+            } catch(Exception e) {
+                System.err.println("Es konnte kein Bild gespeichert werden! <Error-Main.alleFilter-1>");
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Die gesamte Verarbeitungzeit: " + (System.currentTimeMillis() - timeStart1) + " Millisek.");
+    }
 
 }

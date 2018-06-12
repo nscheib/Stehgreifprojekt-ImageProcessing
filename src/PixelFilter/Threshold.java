@@ -14,6 +14,11 @@ public class Threshold extends PixelFilter {
 
     public Threshold(int schwellenWert){ this.schwellenWert = schwellenWert;}
 
+    /**
+     * Methode veraendert von einem bestimmten Schwellenwert(grauWert) die Farbe in Graustufen
+     * @param einzelPixel ist ein einzelner Pixel
+     * @return gibt den veraenderten Pixelwert zurueck
+     */
     @Override
     protected int calculate(int einzelPixel) {
 
