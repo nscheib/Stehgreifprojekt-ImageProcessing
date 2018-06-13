@@ -19,6 +19,15 @@ public abstract class FilterMethodenBib implements IFilter{
     public abstract BufferedImage process(BufferedImage... image);
 
     /**
+     * Gibt den Alpha-Wert eines einzelnen Pixels zurueck
+     * @param einzelPixel ein einzelner Pixel aus einem Bild
+     * @return den Wert zwischen 0 und 255
+     */
+    public static int getAlpha(int einzelPixel){
+        return ((einzelPixel >> 24) & 0xff);
+    }
+
+    /**
      * Gibt den roten Farbanteil eines einzelnen Pixels zurueck
      * @param einzelPixel ein einzelner Pixel aus einem Bild
      * @return den Wert zwischen 0 und 255
@@ -67,6 +76,30 @@ public abstract class FilterMethodenBib implements IFilter{
      */
     public static int getHelligkeit(int einzelPixel){
         return ((getRot(einzelPixel) + getGruen(einzelPixel) + getBlau(einzelPixel)) / 3);
+    }
+
+
+    public static int blend(int[] pixelsOld, int pixelNew, int[] maskPixels, int i){
+        float alpha = getAlpha(maskPixels[i]);
+        int _new = pixelNew;
+        int _old = pixelsOld[i];
+        int r, g, b;
+        r = (int) (getRot(_old) + (getRot(_new) - getRot(_old)) * alpha);
+        g = (int) (getGruen(_old) + (getGruen(_new) - getGruen(_old)) * alpha);
+        b = (int) (getBlau(_old) + (getBlau(_new) - getBlau(_old)) * alpha);
+        return getRGBColor(r, g, b);
+    }
+
+    public static int ItoX(int i, int width){
+        return i % width;
+    }
+
+    protected int ItoY(int i, int width){
+        return i / width;
+    }
+
+    public static int XYtoI(int x, int y, int width){
+        return width * y + x;
     }
 
 }

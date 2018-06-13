@@ -12,6 +12,11 @@ import java.awt.Color;
  */
 public class MonochromeFilter extends PixelFilter {
 
+    /**
+     * Methode veraendert die Farbe eines einzelnen Pixels in einen Grauton
+     * @param einzelPixel ist ein einzelner Pixel
+     * @return gibt den veraenderten Pixelwert zurueck
+     */
     @Override
     protected int calculate(int einzelPixel){
 
