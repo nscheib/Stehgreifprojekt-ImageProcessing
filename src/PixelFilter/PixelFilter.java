@@ -1,6 +1,5 @@
 package PixelFilter;
 
-import Filter.IFilter;
 import Filter.FilterMethodenBib;
 
 import java.awt.*;
@@ -38,11 +37,11 @@ public abstract class PixelFilter extends FilterMethodenBib{
         int height = image1.getHeight();
 
         // Durchlauft das Bild Pixel fuer Pixel in der Hoehe und Breite
-        for(int u = 0; u < width; u++){
-            for(int v = 0; v < height; v++){
+        for (int u = 0; u < width; u++) {
+            for (int v = 0; v < height; v++) {
 
                 // Ruft die Methode calculate des gewaehlten Filters auf und veraendert den einzelnen Pixel
-                if(image2 == null || image2.getRGB(u, v) == new Color(255,255,255).getRGB()){
+                if (image2 == null || image2.getRGB(u, v) == new Color(255,255,255).getRGB()) {
                     image1.setRGB(u, v, calculate(image[0].getRGB(u, v)));
                 }
 

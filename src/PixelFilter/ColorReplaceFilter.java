@@ -14,6 +14,11 @@ public class ColorReplaceFilter extends PixelFilter {
 
     public ColorReplaceFilter(int farbe1) { this.farbe1 = farbe1; }
 
+    /**
+     * Methode Veraendert einen bestimmten Farbton eines Pixels in einen zufaellig Farbton
+     * @param einzelPixel ist ein einzelner Pixel
+     * @return gibt den veraenderten Pixelwert zurueck
+     */
     @Override
     protected int calculate(int einzelPixel) {
 

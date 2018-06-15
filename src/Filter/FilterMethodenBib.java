@@ -19,6 +19,15 @@ public abstract class FilterMethodenBib implements IFilter{
     public abstract BufferedImage process(BufferedImage... image);
 
     /**
+     * Gibt den Alpha-Wert eines einzelnen Pixels zurueck
+     * @param einzelPixel ein einzelner Pixel aus einem Bild
+     * @return den Wert zwischen 0 und 255
+     */
+    public static int getAlpha(int einzelPixel){
+        return ((einzelPixel >> 24) & 0xff);
+    }
+
+    /**
      * Gibt den roten Farbanteil eines einzelnen Pixels zurueck
      * @param einzelPixel ein einzelner Pixel aus einem Bild
      * @return den Wert zwischen 0 und 255
@@ -33,7 +42,7 @@ public abstract class FilterMethodenBib implements IFilter{
      * @return den Wert zwischen 0 und 255
      */
     public static int getGruen(int einzelPixel){
-        return ((einzelPixel >> 16) & 0xFF);
+        return ((einzelPixel >> 8) & 0xFF);
     }
 
     /**
@@ -68,5 +77,7 @@ public abstract class FilterMethodenBib implements IFilter{
     public static int getHelligkeit(int einzelPixel){
         return ((getRot(einzelPixel) + getGruen(einzelPixel) + getBlau(einzelPixel)) / 3);
     }
+
+
 
 }
