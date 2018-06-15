@@ -42,7 +42,7 @@ public abstract class FilterMethodenBib implements IFilter{
      * @return den Wert zwischen 0 und 255
      */
     public static int getGruen(int einzelPixel){
-        return ((einzelPixel >> 16) & 0xFF);
+        return ((einzelPixel >> 8) & 0xFF);
     }
 
     /**
@@ -79,27 +79,5 @@ public abstract class FilterMethodenBib implements IFilter{
     }
 
 
-    public static int blend(int[] pixelsOld, int pixelNew, int[] maskPixels, int i){
-        float alpha = getAlpha(maskPixels[i]);
-        int _new = pixelNew;
-        int _old = pixelsOld[i];
-        int r, g, b;
-        r = (int) (getRot(_old) + (getRot(_new) - getRot(_old)) * alpha);
-        g = (int) (getGruen(_old) + (getGruen(_new) - getGruen(_old)) * alpha);
-        b = (int) (getBlau(_old) + (getBlau(_new) - getBlau(_old)) * alpha);
-        return getRGBColor(r, g, b);
-    }
-
-    public static int ItoX(int i, int width){
-        return i % width;
-    }
-
-    protected int ItoY(int i, int width){
-        return i / width;
-    }
-
-    public static int XYtoI(int x, int y, int width){
-        return width * y + x;
-    }
 
 }

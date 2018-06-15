@@ -1,6 +1,5 @@
 package PixelFilter;
 
-import Filter.IFilter;
 import Filter.FilterMethodenBib;
 
 import java.awt.*;
