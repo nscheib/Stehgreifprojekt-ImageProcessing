@@ -3,6 +3,7 @@ package Filter;
 import AreaFilter.BlurFilter;
 import PixelFilter.*;
 import SpecialFilter.WarHol;
+import Exception.*;
 
 import java.util.*;
 //==========================================================//
@@ -76,13 +77,13 @@ public class FilterBib {
     public static Set<Map.Entry<String, IFilter>> getFilterMap(){ return filter.entrySet(); }
 
 
-    public static IFilter getFilter(String filtername) {
+    public static IFilter getFilter(String filtername) throws NoSuchFieldException {
         IFilter auswahl = filter.get(filtername);
+
         if(auswahl != null) {
             return auswahl;
         } else {
-            System.out.println("Es wurde keine Filter gefunden!");
-            return null;
+            throw new NoSuchFieldException("Der von Ihnen gewählte Filter " + filtername + " ist nicht verfügbar oder exsistier nicht.");
         }
     }
 }

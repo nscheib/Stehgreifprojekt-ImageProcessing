@@ -27,7 +27,7 @@ public class Main {
      * Methode welche das Programm startet
      * @param args sind die Parameter welche in der Commandozeile mitgegeben wurden
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchFieldException {
 
         // Initialisiert die Map mit allen Filtern aus der Klasse FilterBib
         FilterBib.filtermap();
@@ -61,7 +61,7 @@ public class Main {
      * @param filtername ist der aktuelle Name des Filters
      * @return gibt das bearbeitet Bild zurueck
      */
-    private static BufferedImage procImage(String[] args, BufferedImage image, BufferedImage mask, String filtername) {
+    private static BufferedImage procImage(String[] args, BufferedImage image, BufferedImage mask, String filtername) throws NoSuchFieldException {
 
         // holt sich den Namen des Filters und die Parameter aus der Map
         IFilter filterOut = FilterBib.getFilter(filtername);
